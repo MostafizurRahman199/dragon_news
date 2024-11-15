@@ -1,9 +1,16 @@
 import React, { useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
-import user from '../assets/user.png'
+import userProfile from '../assets/user.png'
+import { useFirebaseAuth } from '../provider/AuthProvider'
 
 const Navbar = () => {
+
+    // ______________________states
+
   const [isOpen, setIsOpen] = useState(false)
+  const {user} = useFirebaseAuth();
+
+// ______________________functions
 
   const getNavLinkClass = (isActive) => 
     `hover:text-red-600 transition-colors ${isActive ? 'text-red-600' : 'text-gray-600'}`
@@ -17,7 +24,7 @@ const Navbar = () => {
   // Add this new component for the profile/login section
   const ProfileSection = () => (
     <div className='flex items-center space-x-4'>
-      <img src={user} alt="profile" className="h-8 w-8 rounded-full" />
+      <img src={userProfile} alt="profile" className="h-8 w-8 rounded-full" />
       <Link to="/auth/login" className='bg-black text-white px-8 py-2 rounded-md hover:bg-red-700 transition-colors'>
         Login
       </Link>
@@ -31,6 +38,7 @@ const Navbar = () => {
           {/* Logo/Brand - Add a logo container */}
           
           <div className='flex-1'>
+          {  user && user.name}
           </div>
            
 
