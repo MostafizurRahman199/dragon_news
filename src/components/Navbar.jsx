@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import { NavLink } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
+import user from '../assets/user.png'
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false)
@@ -16,10 +17,10 @@ const Navbar = () => {
   // Add this new component for the profile/login section
   const ProfileSection = () => (
     <div className='flex items-center space-x-4'>
-      <img src="user.png" alt="profile" className="h-8 w-8 rounded-full" />
-      <button className='bg-black text-white px-8 py-2 rounded-md hover:bg-red-700 transition-colors'>
+      <img src={user} alt="profile" className="h-8 w-8 rounded-full" />
+      <Link to="/auth/login" className='bg-black text-white px-8 py-2 rounded-md hover:bg-red-700 transition-colors'>
         Login
-      </button>
+      </Link>
     </div>
   )
 

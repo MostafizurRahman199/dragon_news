@@ -31,7 +31,7 @@ const LeftSidebar = () => {
               className={({ isActive }) =>
                 `btn bg-transparent font-semibold flex items-center px-4 py-2.5 text-sm transition-all duration-200
                 ${isActive 
-                  ? 'bg-gray-200 text-gray-900 rounded-md' 
+                  ? '!bg-gray-200 text-gray-900 rounded-md' 
                   : 'text-gray-400 hover:bg-gray-200 hover:text-gray-900 rounded-md'
                 }`
               }
