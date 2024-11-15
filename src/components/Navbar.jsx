@@ -25,7 +25,7 @@ const Navbar = () => {
   )
 
   return (
-    <nav className='bg-white  py-3'>
+    <nav className='bg-transparent  py-3'>
       <div className='w-10/12 mx-auto'>
         <div className='flex justify-between items-center'>
           {/* Logo/Brand - Add a logo container */}
