@@ -8,7 +8,7 @@ const Navbar = () => {
     // ______________________states
 
   const [isOpen, setIsOpen] = useState(false)
-  const {user} = useFirebaseAuth();
+  const {user, signOutUser} = useFirebaseAuth();
 
 // ______________________functions
 
@@ -25,9 +25,18 @@ const Navbar = () => {
   const ProfileSection = () => (
     <div className='flex items-center space-x-4'>
       <img src={userProfile} alt="profile" className="h-8 w-8 rounded-full" />
-      <Link to="/auth/login" className='bg-black text-white px-8 py-2 rounded-md hover:bg-red-700 transition-colors'>
-        Login
-      </Link>
+      {user  && user.email ? (
+        <button 
+          onClick={signOutUser} 
+          className='bg-black text-white px-8 py-2 rounded-md hover:bg-red-700 transition-colors'
+        >
+          Sign Out
+        </button>
+      ) : (
+        <Link to="/auth/login" className='bg-black text-white px-8 py-2 rounded-md hover:bg-red-700 transition-colors'>
+          Login
+        </Link>
+      )}
     </div>
   )
 
@@ -38,7 +47,7 @@ const Navbar = () => {
           {/* Logo/Brand - Add a logo container */}
           
           <div className='flex-1'>
-          {  user && user.name}
+          {  user && user.email}
           </div>
            
 

@@ -8,6 +8,7 @@ const NewsDetails = ({ newsData }) => {
 
   return (
     <div className="container mx-auto p-4">
+        <h1 className='text-2xl font-bold mb-4 text-[#403F3F]'>Dragon News</h1>
       <div className="card border p-4">
         {/* Author info */}
         <div className="flex justify-between items-center mb-4 bg-gray-100 p-4 rounded-xl">

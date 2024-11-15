@@ -1,11 +1,15 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useFirebaseAuth } from '../provider/AuthProvider';
+import { FcGoogle } from 'react-icons/fc';
 
 const Register = () => {
+  const navigate = useNavigate();
 
-
-    const {createUserWithEmailPassword} = useFirebaseAuth();
+    const {
+        createUserWithEmailPassword, 
+        createUserWithGoogle
+        } = useFirebaseAuth();
 
   // ______________________state for form data
 
@@ -30,6 +34,19 @@ const Register = () => {
   }
 
 
+  const handleSignInWithEmailPassword = async (email, password) => {
+    await createUserWithEmailPassword(email, password);
+    navigate("/auth/login");
+  }
+
+  const handleGoogleSignIn = async () => {
+    try {
+      await createUserWithGoogle();
+      navigate("/");
+    } catch (error) {
+      console.error('Google sign-in error:', error);
+    }
+  };
 
 
   // ______________________handleSubmit
@@ -38,7 +55,7 @@ const Register = () => {
     e.preventDefault()
     console.log('Form submitted:', formData)
     // Add your registration logic here
-    createUserWithEmailPassword(formData.email, formData.password);
+
     setFormData({
       name: '',
       photoUrl: '',
@@ -171,12 +188,23 @@ const Register = () => {
           </div>
 
           {/* Register Button */}
-          <div>
+          <div className="space-y-3">
             <button
+              onClick={() => handleSignInWithEmailPassword(formData.email, formData.password)}
               type="submit"
-              className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm sm:text-base font-medium text-white bg-[#403F3F] hover:bg-gray-700 focus:outline-none focus:ring-1 focus:ring-offset-2 focus:ring-red-500 transition duration-150"
+              className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm sm:text-base font-medium text-white bg-[#403F3F] hover:bg-red-700 focus:outline-none focus:ring-1 focus:ring-offset-2 focus:ring-red-500 transition duration-150"
             >
               Register
+            </button>
+
+            {/* Google Sign In Button */}
+            <button
+              type="button"
+              onClick={handleGoogleSignIn}
+              className="w-full flex items-center justify-center gap-2 py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm sm:text-base font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-1 focus:ring-offset-2 focus:ring-red-500 transition duration-150"
+            >
+              <FcGoogle className="text-xl" />
+              Sign in with Google
             </button>
           </div>
         </form>
