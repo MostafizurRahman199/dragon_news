@@ -38,8 +38,12 @@ const Navbar = () => {
           <div className='hidden md:flex  justify-center flex-1'>
             <div className='flex space-x-8'>
              {
-                navLinks.map((link)=>(
-                    <NavLink to={link.path} className={({ isActive }) => getNavLinkClass(isActive)}>
+                navLinks.map((link, index) => (
+                    <NavLink 
+                        key={link.path} 
+                        to={link.path} 
+                        className={({ isActive }) => getNavLinkClass(isActive)}
+                    >
                         {link.display}
                     </NavLink>
                 ))
@@ -75,10 +79,14 @@ const Navbar = () => {
         {isOpen && (
           <div className='md:hidden mt-4 space-y-4 transition-all duration-300 ease-in-out'>
             {
-                navLinks.map((link)=>(
-                    <NavLink to={link.path}  className={({ isActive }) => 
-                        `block hover:text-red-600 transition-colors ${isActive ? 'text-red-600' : 'text-gray-600'}`
-                      }>
+                navLinks.map((link) => (
+                    <NavLink 
+                        key={link.path} 
+                        to={link.path}  
+                        className={({ isActive }) => 
+                          `block hover:text-red-600 transition-colors ${isActive ? 'text-red-600' : 'text-gray-600'}`
+                        }
+                    >
                         {link.display}
                     </NavLink>
                 ))
