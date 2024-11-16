@@ -5,6 +5,9 @@ import AuthLayout from "../layouts/AuthLayout";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
 import News from "../pages/News";
+import Profile from "../pages/Profile";
+import About from "../pages/About";
+import Careers from "../pages/Careers";
 import PrivateRouteProvider from "./PrivateRouteProvider";
 
 const router = createBrowserRouter([
@@ -43,6 +46,18 @@ const router = createBrowserRouter([
                 element: <Register/>,
             },
         ],
+    },
+    {
+        path: "/profile",
+        element: <PrivateRouteProvider><Profile/></PrivateRouteProvider>,
+    },
+    {
+        path:"/about",
+        element: <About/>,
+    },
+    {
+        path :"/career",
+        element: <Careers/>,
     },
     {
         path: "*",

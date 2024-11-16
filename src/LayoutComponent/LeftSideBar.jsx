@@ -20,7 +20,7 @@ const LeftSidebar = () => {
   }, []);
 
   return (
-    <aside className="w-full bg-white shadow-md p-4 border-2">
+    <aside className="w-full bg-white shadow-md p-4 ">
       <h2 className="text-xl font-semibold mb-4 text-gray-800">All Categories({categories.length})</h2>
       <ul className="space-y-2">
         {categories.map((category) => (

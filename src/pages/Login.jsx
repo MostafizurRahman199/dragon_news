@@ -8,6 +8,7 @@ const Login = () => {
   const [error, setError] = useState(null);
 
   // ______________________useFirebaseAuth
+  const {updateUserProfile} = useFirebaseAuth();
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -66,9 +67,9 @@ const Login = () => {
 
   const handleGoogleSignIn = async () => {
     try {
-      const user = await createUserWithGoogle();
-      if (user?.email) {
-        handleLoginSuccess(user);
+      const result = await createUserWithGoogle();
+      if (result?.user) {
+        handleLoginSuccess(result.user);
         setFormData({
           email: "",
           password: "",
@@ -88,7 +89,11 @@ const Login = () => {
 
 // ______________________handleLoginSuccess and redirect to the saved location
 
-  const handleLoginSuccess = () => {
+  const handleLoginSuccess = (user) => {
+    // Update profile if needed (for Google sign-in)
+    if (user.photoURL && user.displayName) {
+      updateUserProfile(user, user.displayName, user.photoURL);
+    }
     // Redirect to the saved location or default to home
     const from = location.state?.from?.pathname || '/';
     navigate(from);

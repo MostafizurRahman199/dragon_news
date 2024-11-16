@@ -14,7 +14,7 @@ const HomeLayouts = () => {
       <LatestNews />
       <Navbar />
      
-      <main className="w-10/12 mx-auto grid grid-cols-1 md:grid-cols-12 gap-4 justify-items-center border-2">
+      <main className="w-10/12 mx-auto grid grid-cols-1 md:grid-cols-12 gap-4 justify-items-center ">
       
         <aside className="md:col-span-3 w-full">
           <LeftSidebar/>
@@ -24,7 +24,7 @@ const HomeLayouts = () => {
           <Outlet/>
         </section>
 
-        <aside className="md:col-span-3 border-2 w-full">
+        <aside className="md:col-span-3 w-full">
           <RightSidebar/>
         </aside>
 

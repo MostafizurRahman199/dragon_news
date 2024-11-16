@@ -21,24 +21,36 @@ const Navbar = () => {
     {display:"Career",path:"/career"}
   ]
 
-  // Add this new component for the profile/login section
-  const ProfileSection = () => (
-    <div className='flex items-center space-x-4'>
-      <img src={userProfile} alt="profile" className="h-8 w-8 rounded-full" />
-      {user  && user.email ? (
-        <button 
-          onClick={signOutUser} 
-          className='bg-black text-white px-8 py-2 rounded-md hover:bg-red-700 transition-colors'
-        >
-          Sign Out
-        </button>
-      ) : (
-        <Link to="/auth/login" className='bg-black text-white px-8 py-2 rounded-md hover:bg-red-700 transition-colors'>
-          Login
-        </Link>
-      )}
-    </div>
-  )
+  // Updated ProfileSection to use the user from context
+  const ProfileSection = () => {
+    return (
+      <div className='flex items-center space-x-4'>
+        <img 
+          src={user?.photoURL || userProfile} 
+          alt="profile" 
+          className="h-8 w-8 rounded-full object-cover" 
+          onError={(e) => {
+            e.target.src = userProfile; // Fallback if image fails to load
+          }}
+        />
+        {user ? (
+          <div className='flex items-center gap-4'>
+            <span className='text-sm text-gray-700'>{user.displayName}</span>
+            <button 
+              onClick={signOutUser} 
+              className='bg-black text-white px-8 py-2 rounded-md hover:bg-red-700 transition-colors'
+            >
+              Sign Out
+            </button>
+          </div>
+        ) : (
+          <Link to="/auth/login" className='bg-black text-white px-8 py-2 rounded-md hover:bg-red-700 transition-colors'>
+            Login
+          </Link>
+        )}
+      </div>
+    );
+  };
 
   return (
     <nav className='bg-transparent  py-3'>
@@ -47,7 +59,7 @@ const Navbar = () => {
           {/* Logo/Brand - Add a logo container */}
           
           <div className='flex-1'>
-          {  user && user.email}
+         
           </div>
            
 

@@ -8,7 +8,8 @@ const Register = () => {
 
     const {
         createUserWithEmailPassword, 
-        createUserWithGoogle
+        createUserWithGoogle,
+        updateUserProfile
         } = useFirebaseAuth();
 
   // ______________________state for form data
@@ -41,9 +42,22 @@ const Register = () => {
 
 
   const handleSignInWithEmailPassword = async (email, password) => {
-   const user = await createUserWithEmailPassword(email, password);
-    if (user?.email) {
-      navigate("/auth/login");
+    try {
+      const user = await createUserWithEmailPassword(email, password);
+      if (user?.email) {
+        await updateUserProfile(user, formData.name, formData.photoUrl);
+        setFormData({
+          name: '',
+          photoUrl: '',
+          email: '',
+          password: '',
+          terms: false
+        });
+        navigate("/auth/login");
+      }
+    } catch (error) {
+      console.error('Registration error:', error);
+      setErrors({ ...errors, general: error.message });
     }
   }
 

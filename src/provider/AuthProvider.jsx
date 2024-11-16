@@ -11,7 +11,8 @@ import {
     GoogleAuthProvider, 
     signInWithPopup, 
     signInWithEmailAndPassword , 
-    signOut} from 'firebase/auth';
+    signOut,
+    updateProfile} from 'firebase/auth';
 import { toast } from 'react-toastify';
 
 
@@ -56,7 +57,7 @@ const createUserWithGoogle = async () => {
    try {
     const result = await signInWithPopup(auth, googleProvider);
     toast.success("User logged in with Google");
-    return result.user;
+    return result;
    } catch (error) {
     console.log(error);
     if (error.code === "auth/invalid-credential" || 
@@ -108,6 +109,27 @@ const signOutUser = async () => {
 }
 
 
+// 5. update user profile
+
+const updateUserProfile = async (user, name, photoUrl) => {
+    try {
+        await updateProfile(auth.currentUser, {
+            displayName: name,
+            photoURL: photoUrl
+        });
+        
+        await auth.currentUser.reload();
+        
+        setUser(auth.currentUser);
+        
+        return auth.currentUser;
+    } catch (error) {
+        console.error("Error updating profile:", error);
+        throw error;
+    }
+}
+
+
 
 
 
@@ -127,17 +149,11 @@ const AuthProvider = ({children}) => {
 // ______________________onAuthStateChanged
 
 useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-        if(user){
-            setUser(user);
-            setLoading(false);
-            console.log("user logged in");
-        }else{
-            setUser(null);
-            setLoading(false);
-            console.log("user logged out");
-        }
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+        setUser(currentUser);
+        setLoading(false);
     });
+
     return () => unsubscribe();
 }, []);
 
@@ -154,7 +170,8 @@ useEffect(() => {
         createUserWithGoogle,
         signInWithEmailPassword,
         signOutUser,
-        loading
+        loading,
+        updateUserProfile
     };
 
 
