@@ -10,7 +10,7 @@ const About = () => {
       <Navbar />
       
       {/* Hero Section */}
-      <div className="relative h-[50vh] bg-gradient-to-r from-red-50 to-white rounded-2xl overflow-hidden my-8 m-4 mb-12">
+      <div className="relative h-[50vh] bg-gradient-to-r from-red-50 to-white rounded-2xl overflow-hidden my-8 m-4 ">
         <div className="absolute top-0 right-0 w-1/3 h-full opacity-10 ">
           {/* Dragon illustration or pattern could go here */}
           🐉
@@ -80,7 +80,7 @@ const About = () => {
       </div>
 
       {/* Values Section */}
-      <div className="container mx-auto px-6 py-12 bg-gradient-to-b from-white to-red-50 rounded-2xl">
+      <div className="container mx-auto px-6 py-12 bg-gradient-to-b from-white to-red-50 rounded-2xl mb-12">
         <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">
           Our <span className="text-red-600">Values</span>
         </h2>
