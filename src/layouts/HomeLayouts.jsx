@@ -5,6 +5,7 @@ import Navbar from "../components/Navbar";
 import LeftSidebar from "../LayoutComponent/LeftSideBar";
 import RightSidebar from "../LayoutComponent/RightSidebar";
 import { Outlet } from "react-router-dom";
+import Footer from "../components/Footer";
 
 const HomeLayouts = () => {
   return (
@@ -14,7 +15,7 @@ const HomeLayouts = () => {
       <LatestNews />
       <Navbar />
      
-      <main className="w-10/12 mx-auto grid grid-cols-1 md:grid-cols-12 gap-4 justify-items-center ">
+      <main className="w-10/12 mx-auto grid grid-cols-1 md:grid-cols-12 gap-4 justify-items-center mb-12">
       
         <aside className="md:col-span-3 w-full">
           <LeftSidebar/>
@@ -29,6 +30,8 @@ const HomeLayouts = () => {
         </aside>
 
       </main>  
+
+      <Footer/>
 
 
     </div>

@@ -1,16 +1,17 @@
 import React from 'react'
 import Navbar from '../components/Navbar'
 import Header from '../components/Header'
+import Footer from '../components/Footer'
 
 const About = () => {
   return (
-    <div className="min-h-screen w-11/12 md:w-10/12 mx-auto bg-white my-8">
+    <div className="min-h-screen w-11/12 md:w-10/12 mx-auto bg-white my-8  rounded-2xl">
       <Header />
       <Navbar />
       
       {/* Hero Section */}
-      <div className="relative h-[50vh] bg-gradient-to-r from-red-50 to-white rounded-2xl overflow-hidden my-8">
-        <div className="absolute top-0 right-0 w-1/3 h-full opacity-10">
+      <div className="relative h-[50vh] bg-gradient-to-r from-red-50 to-white rounded-2xl overflow-hidden my-8 m-4 mb-12">
+        <div className="absolute top-0 right-0 w-1/3 h-full opacity-10 ">
           {/* Dragon illustration or pattern could go here */}
           🐉
         </div>
@@ -101,6 +102,8 @@ const About = () => {
           />
         </div>
       </div>
+
+      <Footer/>
     </div>
   )
 }

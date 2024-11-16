@@ -1,14 +1,15 @@
 import React from 'react'
 import Navbar from '../components/Navbar'
 import Header from '../components/Header'
+import Footer from '../components/Footer'
 
 const Careers = () => {
   return (
-    <div className="min-h-screen w-11/12 md:w-10/12 mx-auto bg-gradient-to-b from-white to-gray-50 my-8 rounded-2xl shadow-xl">
+    <div className="min-h-screen w-11/12 md:w-10/12 mx-auto bg-gradient-to-b from-white to-gray-50 my-8 rounded-2xl  ">
       <Header/>
       <Navbar/>
       {/* Hero Section */}
-      <div className="relative h-[45vh] bg-gradient-to-r from-pink-50 to-blue-50 my-8 rounded-xl overflow-hidden">
+      <div className="relative h-[45vh] bg-gradient-to-r from-pink-50 to-blue-50 my-8 rounded-xl overflow-hidden m-4 mb-12">
         <div className="absolute inset-0 bg-white/10 backdrop-blur-sm"></div>
         <div className="relative container mx-auto px-6 h-full flex items-center">
           <div className="max-w-2xl">
@@ -76,6 +77,8 @@ const Careers = () => {
           </div>
         </div>
       </div>
+
+      <Footer/>
     </div>
   )
 }

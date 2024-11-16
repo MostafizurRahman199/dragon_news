@@ -43,7 +43,7 @@ const createUserWithEmailPassword = async (email, password) => {
         return userCredential.user;
         
     } catch (error) {
-        console.log(error);
+        // console.log(error);
         toast.error(error.message);
     }
 }
@@ -59,7 +59,7 @@ const createUserWithGoogle = async () => {
     toast.success("User logged in with Google");
     return result;
    } catch (error) {
-    console.log(error);
+    // console.log(error);
     if (error.code === "auth/invalid-credential" || 
         error.code === "auth/invalid-email" || 
         error.code === "auth/wrong-password") {
@@ -82,7 +82,7 @@ const signInWithEmailPassword = async (email, password) => {
         toast.success("User logged in successfully");
         return userCredential.user;
     } catch (error) {
-        console.log(error);
+        // console.log(error);
         if (error.code === "auth/invalid-credential" || 
             error.code === "auth/invalid-email" || 
             error.code === "auth/wrong-password") {
@@ -103,7 +103,7 @@ const signOutUser = async () => {
         await signOut(auth);
         toast.success("User logged out successfully");
     } catch (error) {
-        console.log(error);
+        // console.log(error);
         toast.error(error.message);
     }
 }
