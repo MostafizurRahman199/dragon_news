@@ -21,7 +21,13 @@ const Register = () => {
     terms: false
   })
 
-
+  const [errors, setErrors] = useState({
+    name: '',
+    email: '',
+    password: '',
+    photoUrl: '',
+    general: ''
+  });
 
   // ______________________handleChange
 
@@ -35,14 +41,18 @@ const Register = () => {
 
 
   const handleSignInWithEmailPassword = async (email, password) => {
-    await createUserWithEmailPassword(email, password);
-    navigate("/auth/login");
+   const user = await createUserWithEmailPassword(email, password);
+    if (user?.email) {
+      navigate("/auth/login");
+    }
   }
 
   const handleGoogleSignIn = async () => {
     try {
-      await createUserWithGoogle();
-      navigate("/");
+     const user = await createUserWithGoogle();
+      if (user?.email) {
+        navigate("/");
+      }
     } catch (error) {
       console.error('Google sign-in error:', error);
     }
@@ -51,18 +61,62 @@ const Register = () => {
 
   // ______________________handleSubmit
   
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    console.log('Form submitted:', formData)
-    // Add your registration logic here
-
-    setFormData({
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    // Reset errors
+    setErrors({
       name: '',
-      photoUrl: '',
       email: '',
       password: '',
-      terms: false
-    })
+      photoUrl: ''
+    });
+
+    // Validation checks
+    let isValid = true;
+    const newErrors = {};
+
+    if (!formData.name.trim()) {
+      newErrors.name = 'Name is required';
+      isValid = false;
+    } else if (formData.name.length < 3) {
+      newErrors.name = 'Name must be at least 3 characters long';
+      isValid = false;
+    }
+
+    if (!formData.email) {
+      newErrors.email = 'Email is required';
+      isValid = false;
+    } else if (!formData.email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+      newErrors.email = 'Please enter a valid email address';
+      isValid = false;
+    }
+
+    if (!formData.password) {
+      newErrors.password = 'Password is required';
+      isValid = false;
+    } else if (formData.password.length < 6) {
+      newErrors.password = 'Password must be at least 6 characters long';
+      isValid = false;
+    }
+
+    if (formData.photoUrl && !formData.photoUrl.match(/^https?:\/\/.+/)) {
+      newErrors.photoUrl = 'Please enter a valid URL starting with http:// or https://';
+      isValid = false;
+    }
+
+    if (!isValid) {
+      setErrors(newErrors);
+      return;
+    }
+
+    // If validation passes, proceed with registration
+    try {
+      await handleSignInWithEmailPassword(formData.email, formData.password);
+      navigate("/auth/login");
+    } catch (error) {
+      setErrors({ ...newErrors, general: error.message });
+    }
   }
 
   return (
@@ -97,9 +151,10 @@ const Register = () => {
               required
               value={formData.name}
               onChange={handleChange}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-red-500 focus:border-red-500"
+              className={`w-full px-3 py-2 border ${errors.name ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-red-500 focus:border-red-500`}
               placeholder="Enter your name"
             />
+            {errors.name && <p className="mt-1 text-sm text-red-500">{errors.name}</p>}
           </div>
 
 
@@ -119,9 +174,10 @@ const Register = () => {
               required
               value={formData.photoUrl}
               onChange={handleChange}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-red-500 focus:border-red-500"
+              className={`w-full px-3 py-2 border ${errors.photoUrl ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-red-500 focus:border-red-500`}
               placeholder="Enter photo URL"
             />
+            {errors.photoUrl && <p className="mt-1 text-sm text-red-500">{errors.photoUrl}</p>}
           </div>
 
 
@@ -141,9 +197,10 @@ const Register = () => {
               required
               value={formData.email}
               onChange={handleChange}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-red-500 focus:border-red-500"
+              className={`w-full px-3 py-2 border ${errors.email ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-red-500 focus:border-red-500`}
               placeholder="Enter your email"
             />
+            {errors.email && <p className="mt-1 text-sm text-red-500">{errors.email}</p>}
           </div>
 
 
@@ -163,9 +220,10 @@ const Register = () => {
               required
               value={formData.password}
               onChange={handleChange}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-red-500 focus:border-red-500"
+              className={`w-full px-3 py-2 border ${errors.password ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-red-500 focus:border-red-500`}
               placeholder="Enter your password"
             />
+            {errors.password && <p className="mt-1 text-sm text-red-500">{errors.password}</p>}
           </div>
 
           {/* Terms and Conditions Checkbox */}

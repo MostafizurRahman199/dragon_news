@@ -2,12 +2,15 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useFirebaseAuth } from "../provider/AuthProvider";
 import { FcGoogle } from "react-icons/fc";
+import { useLocation } from "react-router-dom";
 
 const Login = () => {
+  const [error, setError] = useState(null);
 
   // ______________________useFirebaseAuth
 
   const navigate = useNavigate();
+  const location = useLocation();
   const { createUserWithGoogle, signInWithEmailPassword } = useFirebaseAuth();
   const [formData, setFormData] = useState({
     email: "",
@@ -37,13 +40,24 @@ const Login = () => {
 // ______________________handleSignInWithEmailPassword
 
   const handleSignInWithEmailPassword = async () => {
-    await signInWithEmailPassword(formData.email, formData.password);
-    navigate("/");
-    setFormData({
-      email: "",
-      password: "",
-    });
-
+    try {
+      const user = await signInWithEmailPassword(formData.email, formData.password);
+      if (user?.email) {
+        handleLoginSuccess(user);
+        setFormData({
+          email: "",
+          password: "",
+        });
+      }
+    } catch (error) { 
+      if (error.code === "auth/invalid-credential" || 
+          error.code === "auth/invalid-email" || 
+          error.code === "auth/wrong-password") {
+        setError("Invalid email or password");
+      } else {
+        setError(error.message);
+      }
+    }
   };
 
 
@@ -52,13 +66,33 @@ const Login = () => {
 
   const handleGoogleSignIn = async () => {
     try {
-      await createUserWithGoogle();
-      navigate("/");
+      const user = await createUserWithGoogle();
+      if (user?.email) {
+        handleLoginSuccess(user);
+        setFormData({
+          email: "",
+          password: "",
+        });
+      }
     } catch (error) {
-      console.error("Google sign-in error:", error);
+      if(error.code === "auth/invalid-credential" || 
+          error.code === "auth/invalid-email" || 
+          error.code === "auth/wrong-password") {
+        setError("Invalid email or password");
+      }else{
+        setError(error.message);
+      }
     }
   };
 
+
+// ______________________handleLoginSuccess and redirect to the saved location
+
+  const handleLoginSuccess = () => {
+    // Redirect to the saved location or default to home
+    const from = location.state?.from?.pathname || '/';
+    navigate(from);
+  };
 
 
 
@@ -73,7 +107,7 @@ const Login = () => {
         </div>
 
         {/* Form */}
-        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+          <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           {/* Email Field */}
           <div>
             <label
@@ -124,6 +158,14 @@ const Login = () => {
               Login
             </button>
           </div>
+
+          {
+            error && (
+              <div className="text-red-500 text-sm mt-2">
+                {error}
+              </div>
+            )
+          }
 
           {/* Divider */}
           <div className="relative my-4">

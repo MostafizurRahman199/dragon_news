@@ -4,7 +4,7 @@ import { FaRegBookmark, FaShareAlt, FaRegStar, FaRegEye, FaArrowLeft } from 'rea
 
 const NewsDetails = ({ newsData }) => {
   const news = newsData.data[0];
-  const { author, title, image_url, details, rating, total_view } = news;
+  const { author, title, image_url, details, rating, total_view, category_id } = news;
 
   return (
     <div className="container mx-auto p-4">
@@ -59,7 +59,7 @@ const NewsDetails = ({ newsData }) => {
 
         {/* Back button */}
         <Link 
-          to={-1} 
+          to={`/category/${category_id}`} 
           className="w-fit inline-flex items-center gap-2 bg-red-600 text-white px-4 py-2 my-4 rounded-md hover:bg-red-700"
         >
           <FaArrowLeft /> All news in this category
